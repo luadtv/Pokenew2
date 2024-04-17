@@ -1,0 +1,2 @@
+# Pokenew2
+Pokedexprimis
