@@ -1,0 +1,174 @@
+body {
+  font-family: "Pixelify Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  background-color: rgb(255, 255, 255);
+  height: 100vh;
+  margin: 0;
+}
+
+.navbar {
+  width: 100%;
+  height: 7vh;
+  background-color: gray;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.pokeball {
+  margin: 0em 2em;
+  width: 3.6em;
+  height: 3.6em;
+}
+
+.content_navbar {
+  width: 100%;
+  margin-right: 2em;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.content_navbar button {
+  margin: 0 6em;
+  border: none;
+  background-color: gray;
+}
+
+.content_navbar button a {
+  text-decoration: none;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.main_content {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 93vh;
+
+}
+
+.card {
+  width: 27%;
+  height: 50%;
+  margin: 2em;
+  border-radius: 1em;
+  -webkit-box-shadow: 5px 5px 19px -12px rgba(66, 68, 90, 0.43);
+  -moz-box-shadow: 5px 5px 19px -12px rgba(66, 68, 90, 0.43);
+  box-shadow: 5px 5px 19px -12px rgba(66, 68, 90, 0.43);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+img {
+  width: 350px;
+  border-radius: 3px;
+}
+
+.info {
+  height: 15%;
+  width: 100%;
+  padding: 6px;
+  box-sizing: border-box;
+  background: rgb(27, 27, 27, .5);
+  color: white;
+  border-radius: 0px 0px 1em 1em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: absolute;
+  bottom: 0px;
+}
+
+
+h1 {
+  margin: 10px;
+  font-size: 40px;
+}
+
+p {
+  font-size: 16px;
+  margin: 20px;
+  display: none;
+  opacity: 0;
+}
+
+p span {
+  font-size: 18px;
+}
+
+
+span {
+  font-weight: bold;
+}
+
+a {
+  text-align: center;
+  color: antiquewhite;
+  text-decoration: none;
+  position: absolute;
+  top: calc(1em + 5px);
+  font-size: 12px;
+  right: 15px;
+}
+
+.card:hover {
+  cursor: pointer;
+}
+
+.card:hover .intro {
+  height: 220px;
+  bottom: 240px;
+  background: black;
+
+}
+
+.card:hover p {
+  opacity: 1;
+  display: contents;
+}
+
+.card:hover .info {
+  height: 50%;
+  border-radius: 1em;
+  padding: 1em;
+  justify-content: flex-start;
+}
+
+.card:hover img {
+  transform: scale(1.1) rotate(-3deg);
+}
+
+.title-card {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0em 1em;
+}
+
+.title-no {
+  font-size: 38px;
+}
+
+.card:hover .info .title-card .title-name {
+  display: none;
+}
+
+.card:hover .info .title-card {
+  padding: 0em;
+  margin-bottom: .5em;
+}
+
+
+.card:hover .info p span {
+  margin-bottom: .5em;
+}

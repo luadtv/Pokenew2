@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <link rel="stylesheet" type="text/css" href="inicio.css" />
+  </head>
+  <script>
+    const apiUrl = "https://ejemplo.com/api/usuarios";
+
+    // Haciendo la petición utilizando fetch
+    fetch(apiUrl)
+      .then((response) => {
+        // Verificando si la respuesta es exitosa (código de estado 200)
+        if (!response.ok) {
+          throw new Error("La petición ha fallado");
+        }
+        // Si la respuesta es exitosa, convertimos la respuesta a formato JSON
+        return response.json();
+      })
+      .then((data) => {
+        // Haciendo algo con los datos recibidos, por ejemplo, mostrándolos en la consola
+        console.log(data);
+      })
+      .catch((error) => {
+        // Capturando y manejando errores
+        console.error("Error:", error);
+      });
+
+
+
+  </script>
+  <body>
+    <!-- Main Content -->
+
+    <nav class="navbar">
+      <img class="pokeball" src="img/logo.png" alt="logo" />
+      <div class="content_navbar">
+        <button>Pokemon</button>
+        <button>Tipo</button>
+        <button>Oso Achicopalado</button>
+      </div>
+    </nav>
+
+    <section class="main_content">
+      <div class="card">
+        <img src="img/078.png" />
+
+        <div class="info">
+          <div class="title-card">
+            <span class="title-no">078</span>
+            <span class="title-name">Rapidash</span>
+          </div>
+          <p>
+            <span>Rapidash</span> Su crin de fuego centellea cuando galopa como
+            una flecha a velocidades que llegan a alcanzar los 240 km/h.
+            <a href="#">Ver mas</a>
+          </p>
+        </div>
+      </div>
+      <div class="card">
+        <img src="img/079.png" />
+        <div class="info">
+          <div class="title-card">
+            <span class="title-no">079</span>
+            <span class="title-name">Slowpoke</span>
+          </div>
+          <p>
+            <span>Slowpoke</span> Increíblemente lento y torpe. Tarda cinco
+            segundos en sentir dolor si lo atacan.
+            <a href="index.html">Ver mas</a>
+          </p>
+        </div>
+      </div>
+      <div class="card">
+        <img src="img/080.png" />
+        <div class="info">
+          <div class="title-card">
+            <span class="title-no">080</span>
+            <span class="title-name">Slowbro</span>
+          </div>
+          <p>
+            <span>Slowbro</span> Según parece, cuando Slowpoke fue a pescar al
+            mar, un Shellder le mordió la cola y así evolucionó a Slowbro.
+            <a href="#">Ver mas</a>
+          </p>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>
