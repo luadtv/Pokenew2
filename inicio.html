@@ -8,12 +8,11 @@
     <link rel="stylesheet" type="text/css" href="inicio.css" />
   </head>
   <script>
-    const apiUrl = "https://ejemplo.com/api/usuarios";
+    const pokeapikanto = "https://pokeapi.co/api/v2/pokemon?offset=0&limit=300";
 
     // Haciendo la petición utilizando fetch
-    fetch(apiUrl)
+    fetch(pokeapikanto)
       .then((response) => {
-        // Verificando si la respuesta es exitosa (código de estado 200)
         if (!response.ok) {
           throw new Error("La petición ha fallado");
         }
@@ -22,72 +21,73 @@
       })
       .then((data) => {
         // Haciendo algo con los datos recibidos, por ejemplo, mostrándolos en la consola
-        console.log(data);
+        const listpokemon = data.results;
+        const content = document.getElementById("main_content");
+        content.innerHTML = listpokemon
+          .map((pokemon, index) => {
+            const numberpokemon = index + 1;
+            const namepokemon = pokemon.name;
+            const urlpokemon = pokemon.url;
+            const descriptionpokemonurl = `https://pokeapi.co/api/v2/pokemon-species/${numberpokemon}`;
+
+            const cardpokemon = `<div key="${numberpokemon}" class="card">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${numberpokemon}.png" />
+        <div class="info">
+          <div class="title-card">
+            <span class="title-no">${numberpokemon}</span>
+            <span class="title-name">${namepokemon}</span>
+          </div>
+          <p id="descripcion-${namepokemon}"></p>
+        </div>
+      </div>`;
+
+            fetch(descriptionpokemonurl)
+              .then((response) => {
+                if (!response.ok) {
+                  throw new Error("La petición ha fallado");
+                }
+                return response.json();
+              })
+              .then((data) => {
+                const lenguaandversion = data.flavor_text_entries;
+
+                const pokemonColor = data.color.name;
+
+                const pokemondescription = lenguaandversion.find(
+                  (element) => element.language.name === "es"
+                );
+
+                const descriptionpokemones = pokemondescription.flavor_text;
+                const p = document.getElementById(`descripcion-${namepokemon}`);
+
+                p.innerHTML = `<span>${namepokemon}</span>${descriptionpokemones}
+                <a href="index.html?numberpokemon=${numberpokemon}&pokemonName=${namepokemon}&pokemonColor=${pokemonColor}">Ver mas</a>`;
+              })
+              .catch((error) => {
+                console.error("Error:", error);
+              });
+
+            return cardpokemon;
+          })
+          .join("");
       })
+
       .catch((error) => {
-        // Capturando y manejando errores
         console.error("Error:", error);
       });
-
-
-
   </script>
-  <body>
-    <!-- Main Content -->
 
+  <body>
     <nav class="navbar">
-      <img class="pokeball" src="img/logo.png" alt="logo" />
+      <img class="pokeball" src="img/logo.png" alt="logo" href="inicio.html" />
       <div class="content_navbar">
+        <input type="text" class="search-txt" placeholder="Buscar" />
         <button>Pokemon</button>
         <button>Tipo</button>
         <button>Oso Achicopalado</button>
       </div>
     </nav>
 
-    <section class="main_content">
-      <div class="card">
-        <img src="img/078.png" />
-
-        <div class="info">
-          <div class="title-card">
-            <span class="title-no">078</span>
-            <span class="title-name">Rapidash</span>
-          </div>
-          <p>
-            <span>Rapidash</span> Su crin de fuego centellea cuando galopa como
-            una flecha a velocidades que llegan a alcanzar los 240 km/h.
-            <a href="#">Ver mas</a>
-          </p>
-        </div>
-      </div>
-      <div class="card">
-        <img src="img/079.png" />
-        <div class="info">
-          <div class="title-card">
-            <span class="title-no">079</span>
-            <span class="title-name">Slowpoke</span>
-          </div>
-          <p>
-            <span>Slowpoke</span> Increíblemente lento y torpe. Tarda cinco
-            segundos en sentir dolor si lo atacan.
-            <a href="index.html">Ver mas</a>
-          </p>
-        </div>
-      </div>
-      <div class="card">
-        <img src="img/080.png" />
-        <div class="info">
-          <div class="title-card">
-            <span class="title-no">080</span>
-            <span class="title-name">Slowbro</span>
-          </div>
-          <p>
-            <span>Slowbro</span> Según parece, cuando Slowpoke fue a pescar al
-            mar, un Shellder le mordió la cola y así evolucionó a Slowbro.
-            <a href="#">Ver mas</a>
-          </p>
-        </div>
-      </div>
-    </section>
+    <section id="main_content" class="main_content"></section>
   </body>
 </html>

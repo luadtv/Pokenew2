@@ -4,31 +4,36 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap"
-      rel="stylesheet"
-    />
     <link rel="stylesheet" type="text/css" href="style.css" />
   </head>
+
   <body>
     <!-- <div class="blackbox"> -->
-    <div class="whitercard">
-      <div class="photocard"></div>
-      <div class="infocard">
+    <div id="pokemonCard" class="whitercard"></div>
+    <!-- </div> -->
+  </body>
+
+  <script>
+    const queryparams = document.location.search;
+    const pokemonNumber = new URLSearchParams(queryparams).get("numberpokemon");
+    const pokemonName = new URLSearchParams(queryparams).get("pokemonName");
+    const pokemonColor = new URLSearchParams(queryparams).get("pokemonColor");
+    const pokemonDetailUrl = `https://pokeapi.co/api/v2/pokemon/${pokemonName}`;
+
+    const pokemonCard = document.getElementById("pokemonCard");
+    console.log(pokemonCard);
+    pokemonCard.innerHTML = `      <div id="pokemonImageCont" class="photocard"></div>
+    <div class="infocard info-card-background-${pokemonColor}">
         <div class="firstcard">
-          <div class="name">
-            <span class="slowpoke">Slowpoke</span>
-          </div>
+          <div id="pokemonName" class="name"></div>
           <div class="height">
             <div class="column">
               <span class="tittle">HTG</span>
-              <span class="description">1,2m</span>
+              <span id="pokemonHeightValue" class="description">1,2m</span>
             </div>
             <div class="column">
               <span class="tittle">WGT</span>
-              <span class="description">36kg</span>
+              <span id="pokemonWeight" class="description">36kg</span>
             </div>
           </div>
         </div>
@@ -64,24 +69,18 @@
         </div>
         <div class="threecard">
           <div class="moves">
-            <div class="column">
-              <span class="tittle">Moves</span>
-              <span class="description">Scald</span>
-              <span class="description">Psychic</span>
-              <span class="description">Ice Beam</span>
-              <span class="description">Slack Off</span>
-            </div>
+            <div id="pokemonMovesCont" class="column"></div>
           </div>
           <div class="tresunocard">
             <div class="type">
-              <div class="column">
+              <div id="pokemonType" class="column">
                 <span class="tittle">Type</span>
                 <span class="description">Water</span>
                 <span class="description">Psychic</span>
               </div>
             </div>
             <div class="abilities">
-              <div class="column">
+              <div id="pokemonAbilities" class="column">
                 <span class="tittle">Abilities</span>
                 <span class="description">Confusion</span>
                 <span class="description">Own Rhythm</span>
@@ -89,11 +88,54 @@
             </div>
           </div>
         </div>
-        <div class="boxbutton">
-          <button class="button">Generate</button>
-        </div>
-      </div>
-    </div>
-    <!-- </div> -->
-  </body>
+      </div>`;
+
+    fetch(pokemonDetailUrl)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("La petición ha fallado");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        const { abilities, height, moves, stats, types, weight } = data;
+
+        const firstFourMoves = [moves[0], moves[1], moves[2], moves[3]];
+
+        const pokeImgContainer = document.getElementById(`pokemonImageCont`);
+        pokeImgContainer.innerHTML = `<img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemonNumber}.png" />`;
+
+        const pokeNameContainer = document.getElementById(`pokemonName`);
+        pokeNameContainer.innerHTML = `<span class="slowpoke">${pokemonName}</span>`;
+
+        const pokemonHeightValue =
+          document.getElementById(`pokemonHeightValue`);
+        pokemonHeightValue.innerText = `${height} inch`;
+
+        const pokemonWeight = document.getElementById(`pokemonWeight`);
+        pokemonWeight.innerText = `${weight} kg`;
+
+        const pokemonType = document.getElementById(`pokemonType`);
+        pokemonType.innerHTML = `<span class="tittle">Type</span>
+        ${types.map((type) => {
+          return `<span class="description">${type.type.name}</span>`;
+        })}`.replaceAll(",", "");
+
+        const pokemonAbilities = document.getElementById(`pokemonAbilities`);
+        pokemonAbilities.innerHTML = `<span class="tittle">Abilities</span>
+        ${abilities.map((abilitie) => {
+          console.log(abilitie);
+          return `<span class="description">${abilitie.ability.name}</span>`;
+        })}`.replaceAll(",", "");
+
+        const pokemonMovesCont = document.getElementById("pokemonMovesCont");
+        pokemonMovesCont.innerHTML = `<span class="tittle">Moves</span>
+        ${firstFourMoves.map((moveObj) => {
+          return `<span class="description">${moveObj.move.name}</span>`;
+        })}`.replaceAll(",", "");
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  </script>
 </html>
